@@ -1,11 +1,11 @@
 wget https://go.dev/dl/go1.19.2.linux-amd64.tar.gz
-tar -C /usr/local -xzf go1.19.2.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.19.2.linux-amd64.tar.gz
 echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.profile
 echo 'export PATH="$PATH:~/go/bin"' >> $HOME/.profile
 source $HOME/.profile
 go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
 ~/go/bin/xcaddy build --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive
-echo ":443, freedns2022.tk #你的域名
+echo ":443, 2022freedns.tk #你的域名
 tls example@example.com #你的邮箱
 route {
  forward_proxy {
