@@ -29,7 +29,7 @@ route {
 
 安装 Cloudflared
 curl -LO https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-dpkg -i cloudflared-linux-amd64.deb
+sudo dpkg -i cloudflared-linux-amd64.deb
 rm cloudflared-linux-amd64.deb
 
 登录 Cloudflared
