@@ -26,3 +26,49 @@ route {
    header_up  X-Forwarded-Host  {host}
   }
 }" > Caddyfile
+
+安装 Cloudflared
+curl -LO https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+dpkg -i cloudflared-linux-amd64.deb
+rm cloudflared-linux-amd64.deb
+
+登录 Cloudflared
+cloudflared tunnel login
+
+新建隧道
+cloudflared tunnel create vps
+
+新建 Tunnel 对应的 DNS 记录
+cloudflared tunnel route dns vps 2022freedns.tk
+
+新建配置文件
+echo "tunnel: <Tunnel-UUID>
+credentials-file: /root/.cloudflared/<Tunnel-UUID>.json
+protocol: h2mux
+originRequest:
+  connectTimeout: 30s
+  noTLSVerify: false
+ingress:
+  - hostname: <SUBDOMAIN>
+    service: http://localhost:80
+  - service: http_status:404" > ~/.cloudflared/config.yml
+  
+启动 Cloudflared
+修改systemd文件  
+sudo echo "[Unit]
+Description=cloudflared
+After=network.target
+
+[Service]
+TimeoutStartSec=0
+Type=notify
+ExecStart=/usr/bin/cloudflared --loglevel debug --transport-loglevel warn --config /root/.cloudflared/config.yml tunnel run vps
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target" >> /etc/systemd/system/cloudflared.service
+
+启动 Cloudflared
+systemctl enable cloudflared --now
+
