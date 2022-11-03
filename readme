@@ -33,6 +33,8 @@ sudo dpkg -i cloudflared-linux-amd64.deb
 rm cloudflared-linux-amd64.deb
 
 登录 Cloudflared
+hodlpjonjj@iubridge.com
+vps2022@
 cloudflared tunnel login
 
 证书
